@@ -14,34 +14,3 @@ Here are some screeenshots of the application showcasing the Booking functionali
 
 
 
-
-import React from "react";
-import logo from "../images/small_logo.png";
-const Footer = () => {
-  return (
-    <footer>
-      <section>
-        <div className="company-info">
-          <img src={logo} alt=""></img>
-          <p>
-            We are a family Mediteranian restaurant, focused on traditional
-            recipes served with a modern twist.
-          </p>
-        </div>
-
-
-        <div>
-            <h3> Contact </h3>
-            <ul>
-                <li> Address: <br> 123 Towncity, USA</br></li>
-                <li> Phone: <br> +0123455678</br></li>
-                <li> Email: <br> littleLemon@gmail.com</br></li>
-
-            </ul>
-        </div>
-      </section>
-    </footer>
-  );
-};
-
-export default Footer;
