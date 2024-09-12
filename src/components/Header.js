@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header className="header">
       <section>
-        <div>
+        <div className='banner'>
           <h2>Little Lemon</h2>
           <h3>Chicago</h3>
           <p>
@@ -14,7 +14,7 @@ const Header = () => {
             traditional recipes served with a modern twist.
           </p>
           
-          <Link to=""><button aria-label="On Click">Reserve Table</button></Link>
+          <Link to="/booking"><button aria-label="On Click">Reserve Table</button></Link>
         </div>
 
         <div className='banner-img'>
