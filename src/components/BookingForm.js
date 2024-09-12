@@ -1,77 +1,94 @@
-import React, { useState } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const BookingForm = () => {
-  const [date, setData] = useState("");
-  const [times, setTimes] = useState("");
+const BookingForm = ({ availableTimes, dispatch, submitForm }) => {
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [guests, setGuests] = useState("");
-  const [occasion, setOccassion] = useState("");
+  const [occasion, setOccasion] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.SubmiitForm(e);
+    submitForm({ date, time, guests, occasion });
   };
-  const handleChange = (e) => {
-    setData(e);
-    props.dispatch(e);
+
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    if (!isNaN(selectedDate.getTime())) {
+      setDate(e.target.value);
+      dispatch({ date: selectedDate });
+    } else {
+      console.error("Invalid date format");
+    }
   };
+
+  useEffect(() => {
+    // Ensure times are updated when availableTimes changes
+    setTime(""); // Reset selected time when availableTimes change
+  }, [availableTimes]);
+
   return (
     <div>
       <header>
         <section>
-          <form>
+          <form onSubmit={handleSubmit}>
             <fieldset>
               <div>
-                <label htmlFor="bool-date"> Choose Date: </label>
+                <label htmlFor="book-date">Choose Date:</label>
                 <input
                   id="book-date"
                   value={date}
-                  onChange={(e) => handleChange(e.target.value)}
+                  onChange={handleDateChange}
                   type="date"
                   required
-                ></input>
+                />
               </div>
 
               <div>
-                <label htmlFor="bool-time"> Choose Time </label>
+                <label htmlFor="book-time">Choose Time:</label>
                 <select
                   id="book-time"
-                  value={times}
-                  onChange={(e) => setTimes(e.target.value)}
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  required
                 >
-                  <option value=""> Select a Time </option>
-
-                  {props.availableTimes.availableTimes.map((availableTimes) => {
-                    return (
-                      <option key={availableTimes}>{UserActivation}</option>
-                    );
-                  })}
+                  <option value="">Select a Time</option>
+                  {availableTimes && availableTimes.length > 0 ? (
+                    availableTimes.map((timeOption, index) => (
+                      <option key={index} value={timeOption}>
+                        {timeOption}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="" disabled>No Available Times</option>
+                  )}
                 </select>
               </div>
 
-              <div></div>
-
               <div>
-                <label htmlFor="book-guests"> Number of Guests: </label>
+                <label htmlFor="book-guests">Number of Guests:</label>
                 <input
                   id="book-guests"
                   min="1"
                   value={guests}
                   onChange={(e) => setGuests(e.target.value)}
-                ></input>
+                  required
+                />
               </div>
 
               <div>
-                <label htmlFor="book-occasion">Occassion: </label>
-                <select id = 'book-occasion' key={occasion} value={occasion} onChange = {(e) => setOccassion(e.target.value)}>
-                    <option> Birthday </option>
-                    <option> Anniversary </option>
-
+                <label htmlFor="book-occasion">Occasion:</label>
+                <select
+                  id="book-occasion"
+                  value={occasion}
+                  onChange={(e) => setOccasion(e.target.value)}
+                >
+                  <option value="Birthday">Birthday</option>
+                  <option value="Anniversary">Anniversary</option>
                 </select>
               </div>
 
               <div className="btnReceive">
-                <input aria-label="On Click" type = 'submit' value = {"Make Your Reservation"}></input>
+                <button type="submit">Make Your Reservation</button>
               </div>
             </fieldset>
           </form>
